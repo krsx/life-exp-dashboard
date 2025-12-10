@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">
+      <i class="bi bi-heart-pulse me-2"></i>Life Expectancy
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {{#if (eq active 'history')}}active{{/if}}{{#if (eq active 'subregion')}}active{{/if}}{{#if (eq active 'region-min')}}active{{/if}}{{#if (eq active 'search')}}active{{/if}}{{#if (eq active 'inequality')}}active{{/if}}" 
+             href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-bar-chart me-1"></i>Statistics
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item {{#if (eq active 'history')}}active{{/if}}" href="/history">
+                <i class="bi bi-graph-up me-2"></i>Historical Trends
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item {{#if (eq active 'subregion')}}active{{/if}}" href="/subregion">
+                <i class="bi bi-globe-americas me-2"></i>Sub-Region Comparison
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item {{#if (eq active 'region-min')}}active{{/if}}" href="/region-min">
+                <i class="bi bi-diagram-3 me-2"></i>Regional Analysis
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item {{#if (eq active 'search')}}active{{/if}}" href="/search">
+                <i class="bi bi-search me-2"></i>Country Search
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item {{#if (eq active 'inequality')}}active{{/if}}" href="/inequality">
+                <i class="bi bi-arrows-expand me-2"></i>Inequality Gap
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {{#if (eq active 'insert')}}active{{/if}}{{#if (eq active 'update')}}active{{/if}}{{#if (eq active 'delete')}}active{{/if}}" 
+             href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-database me-1"></i>Data Management
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item {{#if (eq active 'insert')}}active{{/if}}" href="/insert">
+                <i class="bi bi-plus-circle me-2"></i>Add New Record
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item {{#if (eq active 'update')}}active{{/if}}" href="/update">
+                <i class="bi bi-pencil-square me-2"></i>Update Record
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item {{#if (eq active 'delete')}}active{{/if}}" href="/delete">
+                <i class="bi bi-trash me-2"></i>Delete Records
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      
+      <span class="navbar-text">
+        <i class="bi bi-info-circle me-1"></i>Global Health Data
+      </span>
+    </div>
+  </div>
+</nav>
+

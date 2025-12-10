@@ -1,0 +1,18 @@
+<div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
+  {{#if (eq type "success")}}
+    <i class="bi bi-check-circle me-2"></i>
+  {{else if (eq type "danger")}}
+    <i class="bi bi-exclamation-triangle me-2"></i>
+  {{else if (eq type "warning")}}
+    <i class="bi bi-exclamation-circle me-2"></i>
+  {{else}}
+    <i class="bi bi-info-circle me-2"></i>
+  {{/if}}
+  {{message}}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
