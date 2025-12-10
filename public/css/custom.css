@@ -1,0 +1,250 @@
+/* Life Expectancy Dashboard - Custom Styles */
+
+/* CSS Variables for theming */
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  --danger-gradient: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Body styling */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+}
+
+main {
+  flex: 1;
+}
+
+/* Navbar customization */
+.navbar-brand {
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+/* Feature cards */
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 12px;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.feature-card .display-4 {
+  font-size: 3rem;
+}
+
+/* Card styling */
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-header {
+  font-weight: 500;
+  border-bottom: none;
+}
+
+/* Table styling */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+/* Badge styling */
+.badge {
+  font-weight: 500;
+}
+
+.badge.fs-6 {
+  padding: 0.5em 0.8em;
+}
+
+/* Form controls */
+.form-select,
+.form-control {
+  border-radius: 8px;
+  padding: 0.625rem 1rem;
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+/* Button styling */
+.btn {
+  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  border: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-success {
+  background: var(--success-gradient);
+  border: none;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4);
+}
+
+.btn-danger {
+  background: var(--danger-gradient);
+  border: none;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(235, 51, 73, 0.4);
+}
+
+/* HTMX loading indicator */
+.htmx-indicator {
+  display: none;
+}
+
+.htmx-request .htmx-indicator {
+  display: inline-block;
+}
+
+.htmx-request.htmx-indicator {
+  display: inline-block;
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 10px;
+  border: none;
+}
+
+/* Breadcrumb styling */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "›";
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+/* Result container animations */
+#result-container {
+  transition: opacity 0.3s ease;
+}
+
+.htmx-swapping #result-container {
+  opacity: 0.5;
+}
+
+/* Stats cards on inequality page */
+.card.bg-danger .display-4,
+.card.bg-success .display-4,
+.card.bg-warning .display-4 {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer styling */
+.footer {
+  background-color: #fff !important;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  border: none;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item.active {
+  background-color: #667eea;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .feature-card .display-4 {
+    font-size: 2.5rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Table responsive wrapper */
+.table-responsive {
+  border-radius: 8px;
+}
+
+/* Empty state styling */
+.text-center.text-muted.py-5 {
+  color: #adb5bd !important;
+}
+
+.text-center.text-muted.py-5 .display-1 {
+  font-size: 5rem;
+  opacity: 0.3;
+}

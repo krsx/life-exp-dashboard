@@ -3,7 +3,8 @@ const path = require("path");
 const { engine } = require("express-handlebars");
 const logger = require("./config/logger");
 
-// Import routes here
+// Import routes
+const indexRoutes = require("./routes/index");
 
 // Import middleware
 const errorHandler = require("./middleware/error-handler");
@@ -54,7 +55,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mount routes here
+// Mount routes
+app.use("/", indexRoutes);
 
 // Error handling middleware
 app.use(notFound);
