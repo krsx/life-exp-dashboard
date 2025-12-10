@@ -1,0 +1,1 @@
+This is life expetancy dashboard based on dataset of [Our World in Data](https://ourworldindata.org/). This project is dedicated for final exam of Software Engineering in Construction Information Systems (CT5805701) course fall 2025.
