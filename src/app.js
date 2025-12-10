@@ -5,7 +5,9 @@ const logger = require("./config/logger");
 
 // Import routes here
 
-// Import middleware here
+// Import middleware
+const errorHandler = require("./middleware/error-handler");
+const notFound = require("./middleware/not-found");
 
 const app = express();
 
@@ -54,6 +56,8 @@ app.use((req, res, next) => {
 
 // Mount routes here
 
-// Error handling middleware here
+// Error handling middleware
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
