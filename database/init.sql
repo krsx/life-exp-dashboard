@@ -1,8 +1,11 @@
 /******************************************************************************
- * Description:
- * 1.  Creates the Schema (3NF).
- * 2.  Creates Temporary Staging Tables.
-  * 3.  Loads Raw CSV data into Staging.
+ * Steps Performed:
+ * 1.  Database initialization.
+ * 2.  Creates the Schema (3NF).
+ * 3.  Creates Temporary Staging Tables.
+ * 4.  Loads Raw CSV data into Staging.
+ * 5.  Transforms and populates the normalized tables (ETL).
+ * 6.  Cleans up staging tables.
  ******************************************************************************/
 
 -- 1. DATABASE INITIALIZATION
@@ -122,3 +125,74 @@ IGNORE 1 LINES
 SET 
     entity = TRIM(@entity_raw),
     code = TRIM(@code_raw);
+
+-- 5. TRANSFORM & LOAD (ETL Logic)
+
+-- 5a. Populate Region
+INSERT IGNORE INTO Region (id, name)
+SELECT DISTINCT 
+    CAST(TRIM(region_code) AS UNSIGNED), 
+    TRIM(region)
+FROM raw_locations
+WHERE NULLIF(TRIM(region_code), '') IS NOT NULL 
+AND CAST(TRIM(region_code) AS UNSIGNED) != 0;
+
+-- 5b. Populate SubRegion
+INSERT IGNORE INTO SubRegion (id, name, region_id)
+SELECT DISTINCT 
+    CAST(TRIM(sub_region_code) AS UNSIGNED), 
+    TRIM(sub_region), 
+    CAST(TRIM(region_code) AS UNSIGNED)
+FROM raw_locations
+WHERE NULLIF(TRIM(sub_region_code), '') IS NOT NULL 
+AND CAST(TRIM(sub_region_code) AS UNSIGNED) != 0;
+
+-- 5c. Populate IntermediateRegion
+INSERT IGNORE INTO IntermediateRegion (id, name, sub_region_id)
+SELECT DISTINCT
+    CAST(TRIM(intermediate_region_code) AS UNSIGNED),
+    TRIM(intermediate_region),
+    CAST(TRIM(sub_region_code) AS UNSIGNED)
+FROM raw_locations
+WHERE NULLIF(TRIM(intermediate_region_code), '') IS NOT NULL
+AND CAST(TRIM(intermediate_region_code) AS UNSIGNED) != 0;
+
+-- 5d. Populate Country
+INSERT IGNORE INTO Country (code, name, alpha_2, numeric_code, sub_region_id, intermediate_region_id)
+SELECT DISTINCT
+    TRIM(alpha_3),
+    TRIM(name),
+    TRIM(alpha_2),
+    CASE 
+        WHEN NULLIF(TRIM(country_code), '') IS NULL THEN NULL
+        ELSE CAST(TRIM(country_code) AS UNSIGNED)
+    END,
+    CAST(TRIM(sub_region_code) AS UNSIGNED),
+    CASE
+        WHEN NULLIF(TRIM(intermediate_region_code), '') IS NULL THEN NULL
+        ELSE CAST(TRIM(intermediate_region_code) AS UNSIGNED)
+    END
+FROM raw_locations
+WHERE TRIM(alpha_3) IS NOT NULL AND TRIM(alpha_3) != ''
+AND NULLIF(TRIM(sub_region_code), '') IS NOT NULL;
+
+-- 5e. Populate LifeExpectancy
+INSERT IGNORE INTO LifeExpectancy (country_code, year, value)
+SELECT
+    TRIM(rf.code),
+    rf.year,
+    rf.life_expectancy
+FROM raw_facts rf
+INNER JOIN Country c ON c.code = TRIM(rf.code)
+WHERE TRIM(rf.code) IS NOT NULL AND TRIM(rf.code) != '';
+
+-- 6. VERIFICATION & CLEANUP
+
+-- Drop temporary tables
+DROP TEMPORARY TABLE IF EXISTS raw_locations;
+DROP TEMPORARY TABLE IF EXISTS raw_facts;
+
+-- Output verification stats
+SELECT 'ETL Completed successfully.' AS status;
+SELECT CONCAT('Countries Loaded: ', COUNT(*)) AS countries FROM Country;
+SELECT CONCAT('Fact Records Loaded: ', COUNT(*)) AS records FROM LifeExpectancy;
