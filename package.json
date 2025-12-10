@@ -1,0 +1,29 @@
+{
+  "name": "life-expectancy-dashboard",
+  "version": "1.0.0",
+  "description": "A Life Expectancy Dashboard web application with HTMX, Handlebars, Bootstrap, and Express.js",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [
+    "life-expectancy",
+    "dashboard",
+    "htmx",
+    "express",
+    "mysql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "mysql2": "^3.6.5",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
