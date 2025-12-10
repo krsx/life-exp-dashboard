@@ -1,0 +1,147 @@
+<div class="row">
+  <div class="col-12 text-center mb-5">
+    <h1 class="display-4 fw-bold text-primary">
+      <i class="bi bi-heart-pulse me-3"></i>Life Expectancy Dashboard
+    </h1>
+    <p class="lead text-muted">
+      Explore global life expectancy data across countries, regions, and time
+      periods.
+    </p>
+    <hr class="my-4" />
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Statistics Features -->
+  <div class="col-12">
+    <h3 class="mb-3"><i class="bi bi-bar-chart me-2"></i>Statistics & Analysis</h3>
+  </div>
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100 shadow-sm feature-card">
+      <div class="card-body text-center">
+        <i class="bi bi-graph-up text-primary display-4 mb-3"></i>
+        <h5 class="card-title">Historical Trends</h5>
+        <p class="card-text text-muted">View life expectancy over time for any
+          country.</p>
+        <a href="/history" class="btn btn-primary">
+          <i class="bi bi-arrow-right me-1"></i>Explore
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100 shadow-sm feature-card">
+      <div class="card-body text-center">
+        <i class="bi bi-globe-americas text-success display-4 mb-3"></i>
+        <h5 class="card-title">Sub-Region Comparison</h5>
+        <p class="card-text text-muted">Compare countries within a sub-region
+          for a specific year.</p>
+        <a href="/subregion" class="btn btn-success">
+          <i class="bi bi-arrow-right me-1"></i>Compare
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100 shadow-sm feature-card">
+      <div class="card-body text-center">
+        <i class="bi bi-diagram-3 text-warning display-4 mb-3"></i>
+        <h5 class="card-title">Regional Analysis</h5>
+        <p class="card-text text-muted">Find the minimum life expectancy in each
+          sub-region.</p>
+        <a href="/region-min" class="btn btn-warning">
+          <i class="bi bi-arrow-right me-1"></i>Analyze
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100 shadow-sm feature-card">
+      <div class="card-body text-center">
+        <i class="bi bi-search text-info display-4 mb-3"></i>
+        <h5 class="card-title">Country Search</h5>
+        <p class="card-text text-muted">Search countries and find their peak
+          life expectancy.</p>
+        <a href="/search" class="btn btn-info">
+          <i class="bi bi-arrow-right me-1"></i>Search
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Special Feature -->
+  <div class="col-12 mt-4">
+    <div class="card bg-light border-primary shadow">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h4 class="card-title text-primary">
+              <i class="bi bi-arrows-expand me-2"></i>Inequality Gap Analysis
+            </h4>
+            <p class="card-text">
+              Discover the disparity in life expectancy within regions. This
+              feature calculates the gap between the healthiest and least
+              healthy countries, highlighting social and health equity
+              indicators.
+            </p>
+          </div>
+          <div class="col-md-4 text-md-end">
+            <a href="/inequality" class="btn btn-primary btn-lg">
+              <i class="bi bi-arrow-right me-1"></i>View Inequality Gap
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Management Features -->
+  <div class="col-12 mt-5">
+    <h3 class="mb-3"><i class="bi bi-database me-2"></i>Data Management</h3>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm feature-card">
+      <div class="card-body text-center">
+        <i class="bi bi-plus-circle text-success display-4 mb-3"></i>
+        <h5 class="card-title">Add New Record</h5>
+        <p class="card-text text-muted">Insert a new life expectancy record for
+          the next year.</p>
+        <a href="/insert" class="btn btn-outline-success">
+          <i class="bi bi-plus me-1"></i>Add Data
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm feature-card">
+      <div class="card-body text-center">
+        <i class="bi bi-pencil-square text-primary display-4 mb-3"></i>
+        <h5 class="card-title">Update Record</h5>
+        <p class="card-text text-muted">Correct existing life expectancy values.</p>
+        <a href="/update" class="btn btn-outline-primary">
+          <i class="bi bi-pencil me-1"></i>Edit Data
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm feature-card">
+      <div class="card-body text-center">
+        <i class="bi bi-trash text-danger display-4 mb-3"></i>
+        <h5 class="card-title">Delete Records</h5>
+        <p class="card-text text-muted">Remove records within a specified year
+          range.</p>
+        <a href="/delete" class="btn btn-outline-danger">
+          <i class="bi bi-trash me-1"></i>Delete Data
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
