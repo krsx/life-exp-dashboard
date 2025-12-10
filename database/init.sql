@@ -84,3 +84,41 @@ CREATE TEMPORARY TABLE raw_facts (
     year INT,
     life_expectancy DECIMAL(10, 4)
 );
+
+-- 4. LOAD RAW DATA
+-- Note: File paths refer to the internal path in the Docker container.
+
+-- Load Locations (data2.csv)
+LOAD DATA INFILE '/var/lib/mysql-files/data2.csv'
+INTO TABLE raw_locations
+CHARACTER SET utf8mb4
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(@name_raw, @alpha_2_raw, @alpha_3_raw, @country_code_raw, @iso_3166_2_raw, @region_raw, @sub_region_raw, @intermediate_region_raw, @region_code_raw, @sub_region_code_raw, @intermediate_region_code_raw)
+SET 
+    name = TRIM(@name_raw),
+    alpha_2 = TRIM(@alpha_2_raw),
+    alpha_3 = TRIM(@alpha_3_raw),
+    country_code = TRIM(@country_code_raw),
+    iso_3166_2 = TRIM(@iso_3166_2_raw),
+    region = TRIM(@region_raw),
+    sub_region = TRIM(@sub_region_raw),
+    intermediate_region = TRIM(@intermediate_region_raw),
+    region_code = TRIM(@region_code_raw),
+    sub_region_code = TRIM(@sub_region_code_raw),
+    intermediate_region_code = NULLIF(TRIM(@intermediate_region_code_raw), '');
+
+-- Load Facts (data1.csv)
+LOAD DATA INFILE '/var/lib/mysql-files/data1.csv'
+INTO TABLE raw_facts
+CHARACTER SET utf8mb4
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(@entity_raw, @code_raw, year, life_expectancy)
+SET 
+    entity = TRIM(@entity_raw),
+    code = TRIM(@code_raw);
