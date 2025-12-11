@@ -22,6 +22,18 @@ main {
 }
 
 /* Navbar customization */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .navbar-brand {
   font-size: 1.25rem;
   letter-spacing: 0.5px;

@@ -8,7 +8,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Auto-dismiss alerts after 5 seconds
   setupAutoAlertDismiss();
+
+  // Setup sticky navbar scroll effect
+  setupStickyNavbar();
 });
+
+/**
+ * Add scroll effect to sticky navbar
+ * Enhances shadow when page is scrolled
+ */
+function setupStickyNavbar() {
+  const navbar = document.querySelector(".navbar");
+  if (!navbar) return;
+
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 0) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
+}
 
 /**
  * Auto-dismiss Bootstrap alerts after 5 seconds
