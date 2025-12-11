@@ -115,4 +115,23 @@ router.get("/insert", async (req, res, next) => {
   }
 });
 
+/**
+ * Update existing record
+ * GET /update
+ */
+router.get("/update", async (req, res, next) => {
+  try {
+    const { getAllCountries } = require("../utils/db-helpers");
+    const countries = await getAllCountries();
+
+    res.render("update", {
+      title: "Update Record",
+      active: "update",
+      countries,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
