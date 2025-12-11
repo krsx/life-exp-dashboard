@@ -164,4 +164,57 @@ router.get("/region-min", async (req, res, next) => {
   }
 });
 
+/**
+ * Search for countries
+ * POST /stats/search
+ */
+router.post("/search", async (req, res, next) => {
+  try {
+    const { keyword } = req.body;
+
+    if (!keyword || keyword.trim().length === 0) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "info",
+        message: "Enter a keyword to search for countries.",
+      });
+    }
+
+    const sanitized = sanitizeKeyword(keyword);
+    if (sanitized.length < 1) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: "Please enter a valid search keyword.",
+      });
+    }
+
+    const sql = `
+      SELECT c.name, MAX(le.value) as PeakLifeExpectancy
+      FROM Country c
+      JOIN LifeExpectancy le ON c.code = le.country_code
+      WHERE c.name LIKE ?
+      GROUP BY c.code, c.name
+      ORDER BY c.name ASC
+    `;
+    const results = await query(sql, [`%${sanitized}%`]);
+
+    if (results.length === 0) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: `No countries found matching "${sanitized}".`,
+      });
+    }
+
+    res.render("partials/search-results", {
+      layout: false,
+      data: results,
+      keyword: sanitized,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
