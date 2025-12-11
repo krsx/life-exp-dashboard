@@ -59,4 +59,55 @@ router.get("/history", async (req, res, next) => {
   }
 });
 
+/**
+ * Get sub-region comparative snapshot
+ * GET /stats/subregion?sub_region_id=X&year=YYYY
+ */
+router.get("/subregion", async (req, res, next) => {
+  try {
+    const { sub_region_id, year } = req.query;
+
+    if (!sub_region_id || !year) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "info",
+        message: "Please select both a sub-region and a year.",
+      });
+    }
+
+    if (!isValidId(sub_region_id) || !isValidYear(year)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Invalid parameters provided.",
+      });
+    }
+
+    const sql = `
+      SELECT c.name, le.value
+      FROM Country c
+      JOIN LifeExpectancy le ON c.code = le.country_code
+      WHERE c.sub_region_id = ? AND le.year = ?
+      ORDER BY c.name ASC
+    `;
+    const results = await query(sql, [sub_region_id, year]);
+
+    if (results.length === 0) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: "No data found for the selected sub-region and year.",
+      });
+    }
+
+    res.render("partials/subregion-results", {
+      layout: false,
+      data: results,
+      year,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
