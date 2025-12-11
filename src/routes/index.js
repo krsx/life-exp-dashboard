@@ -96,4 +96,23 @@ router.get("/search", async (req, res, next) => {
   }
 });
 
+/**
+ * Insert new record
+ * GET /insert
+ */
+router.get("/insert", async (req, res, next) => {
+  try {
+    const { getAllCountries } = require("../utils/db-helpers");
+    const countries = await getAllCountries();
+
+    res.render("insert", {
+      title: "Add New Record",
+      active: "insert",
+      countries,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
