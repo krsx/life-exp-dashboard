@@ -110,4 +110,58 @@ router.get("/subregion", async (req, res, next) => {
   }
 });
 
+/**
+ * Get regional "Weakest Link" analysis
+ * GET /stats/region-min?region_id=X&year=YYYY
+ */
+router.get("/region-min", async (req, res, next) => {
+  try {
+    const { region_id, year } = req.query;
+
+    if (!region_id || !year) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "info",
+        message: "Please select both a region and a year.",
+      });
+    }
+
+    if (!isValidId(region_id) || !isValidYear(year)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Invalid parameters provided.",
+      });
+    }
+
+    const sql = `
+      SELECT sr.name as SubRegion, MIN(le.value) as MinVal
+      FROM Region r
+      JOIN SubRegion sr ON r.id = sr.region_id
+      JOIN Country c ON sr.id = c.sub_region_id
+      JOIN LifeExpectancy le ON c.code = le.country_code
+      WHERE r.id = ? AND le.year = ?
+      GROUP BY sr.id, sr.name
+      ORDER BY r.name ASC, MinVal ASC
+    `;
+    const results = await query(sql, [region_id, year]);
+
+    if (results.length === 0) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: "No data found for the selected region and year.",
+      });
+    }
+
+    res.render("partials/region-min-results", {
+      layout: false,
+      data: results,
+      year,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
