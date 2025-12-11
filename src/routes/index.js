@@ -36,4 +36,28 @@ router.get("/history", async (req, res, next) => {
   }
 });
 
+/**
+ * Get sub-region comparison
+ * GET /subregion
+ */
+router.get("/subregion", async (req, res, next) => {
+  try {
+    const {
+      getAllSubRegions,
+      getAvailableYears,
+    } = require("../utils/db-helpers");
+    const subRegions = await getAllSubRegions();
+    const years = await getAvailableYears();
+
+    res.render("subregion", {
+      title: "Sub-Region Comparison",
+      active: "subregion",
+      subRegions,
+      years,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
