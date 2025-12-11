@@ -159,4 +159,83 @@ router.put("/update", async (req, res, next) => {
   }
 });
 
+/**
+ * Delete records by range
+ * DELETE /data/delete-range
+ */
+router.delete("/delete-range", async (req, res, next) => {
+  try {
+    const { country_code, start_year, end_year } = req.body;
+
+    // Validate inputs
+    if (!country_code || !start_year || !end_year) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Please provide country, start year, and end year.",
+      });
+    }
+
+    if (!isValidCountryCode(country_code)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Invalid country code provided.",
+      });
+    }
+
+    if (!isValidYearRange(start_year, end_year)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message:
+          "Invalid year range. Start year must be less than or equal to end year.",
+      });
+    }
+
+    const upperCountryCode = country_code.toUpperCase();
+
+    // Count records to be deleted
+    const countSql = `
+      SELECT COUNT(*) as count
+      FROM LifeExpectancy
+      WHERE country_code = ? AND year BETWEEN ? AND ?
+    `;
+    const countResult = await query(countSql, [
+      upperCountryCode,
+      start_year,
+      end_year,
+    ]);
+    const recordCount = countResult[0].count;
+
+    if (recordCount === 0) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: `No records found for ${upperCountryCode} between ${start_year} and ${end_year}.`,
+      });
+    }
+
+    // Delete records
+    const sql = `
+      DELETE FROM LifeExpectancy
+      WHERE country_code = ?
+      AND year BETWEEN ? AND ?
+    `;
+    await query(sql, [upperCountryCode, start_year, end_year]);
+
+    logger.info(
+      `Deleted ${recordCount} records: ${upperCountryCode}, ${start_year}-${end_year}`
+    );
+
+    res.render("partials/alert", {
+      layout: false,
+      type: "success",
+      message: `Successfully deleted ${recordCount} record(s) for ${upperCountryCode} from ${start_year} to ${end_year}.`,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
