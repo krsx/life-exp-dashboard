@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="col-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Delete Records</li>
+      </ol>
+    </nav>
+
+    <h2 class="mb-4">
+      <i class="bi bi-trash text-danger me-2"></i>Bulk Deletion by Range
+    </h2>
+    <p class="text-muted mb-4">
+      Delete life expectancy records for a country within a specified year
+      range.
+    </p>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm border-danger">
+      <div class="card-header bg-danger text-white">
+        <i class="bi bi-exclamation-triangle me-2"></i>Delete Records Form
+      </div>
+      <div class="card-body">
+        <div class="alert alert-warning">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          <strong>Warning:</strong>
+          This action cannot be undone. Please double-check your selection
+          before deleting.
+        </div>
+
+        <form
+          hx-delete="/data/delete-range"
+          hx-target="#result-container"
+          hx-indicator="#loading"
+          hx-confirm="Are you sure you want to delete these records? This action cannot be undone."
+        >
+          <div class="mb-3">
+            <label for="country_code" class="form-label">Country</label>
+            <select
+              id="country_code"
+              name="country_code"
+              class="form-select"
+              required
+            >
+              <option value="">Choose a country...</option>
+              {{#each countries}}
+                <option value="{{this.code}}">{{this.name}}
+                  ({{this.code}})</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="start_year" class="form-label">Start Year</label>
+                <input
+                  type="number"
+                  id="start_year"
+                  name="start_year"
+                  class="form-control"
+                  min="1900"
+                  max="2100"
+                  placeholder="e.g., 2000"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="end_year" class="form-label">End Year</label>
+                <input
+                  type="number"
+                  id="end_year"
+                  name="end_year"
+                  class="form-control"
+                  min="1900"
+                  max="2100"
+                  placeholder="e.g., 2010"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-text mb-3">
+            All records for the selected country between the start and end years
+            (inclusive) will be deleted.
+          </div>
+
+          <div id="result-container" class="mb-3"></div>
+
+          <button type="submit" class="btn btn-danger w-100">
+            <i class="bi bi-trash me-2"></i>Delete Records
+            <span id="loading" class="htmx-indicator">
+              <span
+                class="spinner-border spinner-border-sm ms-2"
+                role="status"
+              ></span>
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
