@@ -60,4 +60,25 @@ router.get("/subregion", async (req, res, next) => {
   }
 });
 
+/**
+ * Get regional weakest link
+ * GET /region-min
+ */
+router.get("/region-min", async (req, res, next) => {
+  try {
+    const { getAllRegions, getAvailableYears } = require("../utils/db-helpers");
+    const regions = await getAllRegions();
+    const years = await getAvailableYears();
+
+    res.render("region-min", {
+      title: "Regional Analysis",
+      active: "region-min",
+      regions,
+      years,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
