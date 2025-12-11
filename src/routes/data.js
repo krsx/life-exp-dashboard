@@ -80,4 +80,83 @@ router.post("/insert-next", async (req, res, next) => {
   }
 });
 
+/**
+ * Update existing record
+ * PUT /data/update
+ */
+router.put("/update", async (req, res, next) => {
+  try {
+    const { country_code, year, value } = req.body;
+
+    // Validate inputs
+    if (!country_code || !year || value === undefined || value === "") {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Please provide country, year, and new value.",
+      });
+    }
+
+    if (!isValidCountryCode(country_code)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Invalid country code provided.",
+      });
+    }
+
+    if (!isValidYear(year)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Invalid year provided.",
+      });
+    }
+
+    if (!isValidLifeExpectancy(value)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Life expectancy value must be between 0 and 150.",
+      });
+    }
+
+    const upperCountryCode = country_code.toUpperCase();
+
+    // Check if record exists
+    const exists = await recordExists(upperCountryCode, year);
+    if (!exists) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: `No record found for ${upperCountryCode} in year ${year}.`,
+      });
+    }
+
+    // Update the record
+    const sql = `
+      UPDATE LifeExpectancy
+      SET value = ?
+      WHERE country_code = ? AND year = ?
+    `;
+    const result = await query(sql, [
+      parseFloat(value),
+      upperCountryCode,
+      year,
+    ]);
+
+    logger.info(
+      `Updated record: ${upperCountryCode}, ${year}, new value: ${value}`
+    );
+
+    res.render("partials/alert", {
+      layout: false,
+      type: "success",
+      message: `Successfully updated life expectancy to ${value} for ${upperCountryCode} in ${year}.`,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
