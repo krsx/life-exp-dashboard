@@ -5,6 +5,9 @@ const logger = require("./config/logger");
 
 // Import routes
 const indexRoutes = require("./routes/index");
+const statsRoutes = require("./routes/stats");
+const dataRoutes = require("./routes/data");
+const apiRoutes = require("./routes/api");
 
 // Import middleware
 const errorHandler = require("./middleware/error-handler");
@@ -57,6 +60,9 @@ app.use((req, res, next) => {
 
 // Mount routes
 app.use("/", indexRoutes);
+app.use("/stats", statsRoutes);
+app.use("/data", dataRoutes);
+app.use("/api", apiRoutes);
 
 // Error handling middleware
 app.use(notFound);
