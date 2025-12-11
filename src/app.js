@@ -10,7 +10,7 @@ const dataRoutes = require("./routes/data");
 const apiRoutes = require("./routes/api");
 
 // Import middleware
-const errorHandler = require("./middleware/error-handler");
+const errorHandler = require("./middleware/error-handle");
 const notFound = require("./middleware/not-found");
 
 const app = express();
