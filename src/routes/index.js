@@ -134,4 +134,23 @@ router.get("/update", async (req, res, next) => {
   }
 });
 
+/**
+ * Delete records
+ * GET /delete
+ */
+router.get("/delete", async (req, res, next) => {
+  try {
+    const { getAllCountries } = require("../utils/db-helpers");
+    const countries = await getAllCountries();
+
+    res.render("delete", {
+      title: "Delete Records",
+      active: "delete",
+      countries,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
