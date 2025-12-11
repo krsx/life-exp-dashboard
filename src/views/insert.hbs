@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Add New Record</li>
+      </ol>
+    </nav>
+
+    <h2 class="mb-4">
+      <i class="bi bi-plus-circle text-success me-2"></i>Smart Insert (Next Year
+      Projection)
+    </h2>
+    <p class="text-muted mb-4">
+      Add a new life expectancy record for the next available year of a country.
+    </p>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-success text-white">
+        <i class="bi bi-plus-lg me-2"></i>New Record Form
+      </div>
+      <div class="card-body">
+        <form
+          hx-post="/data/insert-next"
+          hx-target="#result-container"
+          hx-indicator="#loading"
+        >
+          <div class="mb-3">
+            <label for="country_code" class="form-label">Country</label>
+            <select
+              id="country_code"
+              name="country_code"
+              class="form-select"
+              required
+            >
+              <option value="">Choose a country...</option>
+              {{#each countries}}
+                <option value="{{this.code}}">{{this.name}}
+                  ({{this.code}})</option>
+              {{/each}}
+            </select>
+            <div class="form-text">
+              The system will automatically determine the next year based on
+              existing data.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="value" class="form-label">Life Expectancy Value</label>
+            <input
+              type="number"
+              id="value"
+              name="value"
+              class="form-control"
+              step="0.01"
+              min="0"
+              max="150"
+              placeholder="e.g., 75.50"
+              required
+            />
+            <div class="form-text">
+              Enter the life expectancy at birth (in years)
+            </div>
+          </div>
+
+          <div id="result-container" class="mb-3"></div>
+
+          <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-plus-circle me-2"></i>Add Record
+            <span id="loading" class="htmx-indicator">
+              <span
+                class="spinner-border spinner-border-sm ms-2"
+                role="status"
+              ></span>
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
