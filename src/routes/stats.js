@@ -217,4 +217,81 @@ router.post("/search", async (req, res, next) => {
   }
 });
 
+/**
+ * Get inequality gap analysis
+ * GET /stats/inequality?region_id=X
+ */
+router.get("/inequality", async (req, res, next) => {
+  try {
+    const { region_id } = req.query;
+
+    if (!region_id) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "info",
+        message: "Please select a region to analyze.",
+      });
+    }
+
+    if (!isValidId(region_id)) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "danger",
+        message: "Invalid region ID provided.",
+      });
+    }
+
+    // Get the most recent year with data for this region
+    const yearSql = `
+      SELECT MAX(le.year) as latestYear
+      FROM Region r
+      JOIN SubRegion sr ON r.id = sr.region_id
+      JOIN Country c ON sr.id = c.sub_region_id
+      JOIN LifeExpectancy le ON c.code = le.country_code
+      WHERE r.id = ?
+    `;
+    const yearResult = await query(yearSql, [region_id]);
+    const latestYear = yearResult[0]?.latestYear;
+
+    if (!latestYear) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: "No data available for the selected region.",
+      });
+    }
+
+    const sql = `
+      SELECT
+        r.name as RegionName,
+        MAX(le.value) - MIN(le.value) as TheInequalityGap,
+        MAX(le.value) as BestMetric,
+        MIN(le.value) as WorstMetric,
+        ? as Year
+      FROM Region r
+      JOIN SubRegion sr ON r.id = sr.region_id
+      JOIN Country c ON sr.id = c.sub_region_id
+      JOIN LifeExpectancy le ON c.code = le.country_code
+      WHERE r.id = ? AND le.year = ?
+      GROUP BY r.id, r.name
+    `;
+    const results = await query(sql, [latestYear, region_id, latestYear]);
+
+    if (results.length === 0) {
+      return res.render("partials/alert", {
+        layout: false,
+        type: "warning",
+        message: "No inequality data found for the selected region.",
+      });
+    }
+
+    res.render("partials/inequality-results", {
+      layout: false,
+      data: results[0],
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
