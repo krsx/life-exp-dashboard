@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Inequality Gap</li>
+      </ol>
+    </nav>
+
+    <h2 class="mb-4">
+      <i class="bi bi-arrows-expand text-primary me-2"></i>The "Inequality Gap"
+      Analysis
+    </h2>
+    <p class="text-muted mb-4">
+      Explore the disparity in life expectancy within a region. This feature
+      highlights the gap between the healthiest and least healthy countries,
+      serving as a measure of social and health equity.
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <i class="bi bi-globe me-2"></i>Select Region
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="region_id" class="form-label">Region</label>
+          <select
+            id="region_id"
+            name="region_id"
+            class="form-select"
+            hx-get="/stats/inequality"
+            hx-trigger="change"
+            hx-target="#result-container"
+            hx-indicator="#loading"
+          >
+            <option value="">Choose a region...</option>
+            {{#each regions}}
+              <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+          </select>
+          <div class="form-text">
+            Analysis will use the most recent available year.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <i class="bi bi-bar-chart me-2"></i>Inequality Analysis
+        <div id="loading" class="htmx-indicator float-end">
+          <div
+            class="spinner-border spinner-border-sm text-primary"
+            role="status"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" id="result-container">
+        <div class="text-center text-muted py-5">
+          <i class="bi bi-arrows-expand display-1"></i>
+          <p class="mt-3">Select a region to analyze inequality gap</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

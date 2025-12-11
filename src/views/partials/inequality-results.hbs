@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-12 mb-4">
+    <h4 class="text-primary">
+      <i class="bi bi-geo-alt me-2"></i>{{data.RegionName}}
+      <small class="text-muted">({{data.Year}})</small>
+    </h4>
+    <hr />
+  </div>
+
+  <div class="col-md-4">
+    <div class="card bg-danger text-white h-100">
+      <div class="card-body text-center">
+        <h6 class="card-subtitle mb-2 text-white-50">Inequality Gap</h6>
+        <h2 class="card-title display-4 fw-bold">{{formatDecimal
+            data.TheInequalityGap
+            2
+          }}</h2>
+        <p class="card-text">years</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card bg-success text-white h-100">
+      <div class="card-body text-center">
+        <h6 class="card-subtitle mb-2 text-white-50">Best (Highest)</h6>
+        <h2 class="card-title display-4 fw-bold">{{formatDecimal
+            data.BestMetric
+            2
+          }}</h2>
+        <p class="card-text">years</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card bg-warning h-100">
+      <div class="card-body text-center">
+        <h6 class="card-subtitle mb-2 text-muted">Worst (Lowest)</h6>
+        <h2 class="card-title display-4 fw-bold">{{formatDecimal
+            data.WorstMetric
+            2
+          }}</h2>
+        <p class="card-text">years</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-4">
+    <div class="alert alert-info">
+      <i class="bi bi-lightbulb me-2"></i>
+      <strong>Interpretation:</strong>
+      The inequality gap of
+      <strong>{{formatDecimal data.TheInequalityGap 2}} years</strong>
+      represents the difference in life expectancy between the healthiest and
+      least healthy countries within
+      {{data.RegionName}}. A larger gap indicates greater health disparity in
+      the region.
+    </div>
+  </div>
+</div>
