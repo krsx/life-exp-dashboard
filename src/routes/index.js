@@ -153,4 +153,23 @@ router.get("/delete", async (req, res, next) => {
   }
 });
 
+/**
+ * Get inequality gap
+ * GET /inequality
+ */
+router.get("/inequality", async (req, res, next) => {
+  try {
+    const { getAllRegions } = require("../utils/db-helpers");
+    const regions = await getAllRegions();
+
+    res.render("inequality", {
+      title: "Inequality Gap Analysis",
+      active: "inequality",
+      regions,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
