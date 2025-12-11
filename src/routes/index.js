@@ -81,4 +81,19 @@ router.get("/region-min", async (req, res, next) => {
   }
 });
 
+/**
+ * Search for countries
+ * GET /search
+ */
+router.get("/search", async (req, res, next) => {
+  try {
+    res.render("search", {
+      title: "Country Search",
+      active: "search",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
