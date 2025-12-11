@@ -23,8 +23,8 @@ services:
           "-h",
           "localhost",
           "-u",
-          "${DB_USER}",
-          "-p${DB_PASSWORD}",
+          "root",
+          "-prootpassword123",
         ]
       interval: 10s
       timeout: 5s
@@ -39,16 +39,16 @@ services:
     container_name: life_expectancy_app
     restart: unless-stopped
     ports:
-      - "${PORT}:3000"
+      - "3000:3000"
     environment:
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      PORT: ${PORT}
-      NODE_ENV: ${NODE_ENV}
-      LOG_LEVEL: ${LOG_LEVEL}
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: rootpassword123
+      DB_NAME: life_expectancy_db
+      PORT: 3000
+      NODE_ENV: development
+      LOG_LEVEL: info
     depends_on:
       mysql:
         condition: service_healthy
