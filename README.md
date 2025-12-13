@@ -107,6 +107,41 @@ The database follows a **normalized 3NF (Third Normal Form)** schema with 5 core
 
 ```mermaid
 erDiagram
+    %% Entity Definitions
+    Region {
+        int id PK "region-code"
+        string name "region"
+    }
+
+    SubRegion {
+        int id PK "sub-region-code"
+        string name "sub-region"
+        int region_id FK
+    }
+
+    IntermediateRegion {
+        int id PK "intermediate-region-code"
+        string name "intermediate-region"
+        int sub_region_id FK
+    }
+
+    Country {
+        string code PK "alpha-3 (e.g. AFG)"
+        string name
+        string alpha_2
+        int numeric_code
+        int sub_region_id FK
+        int intermediate_region_id FK "Nullable"
+    }
+
+    LifeExpectancy {
+        int id PK
+        string country_code FK
+        int year
+        decimal value "Life Expectancy at Birth"
+    }
+
+    %% Relationships
     Region ||--|{ SubRegion : contains
     SubRegion ||--o{ IntermediateRegion : contains
     SubRegion ||--|{ Country : "geographically contains"
